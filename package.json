@@ -1,0 +1,23 @@
+{
+  "name": "electric-grid-management",
+  "version": "1.0.0",
+  "description": "Prototype of Electric Grid Management System",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnedzelskyi/electric-grid-management.git"
+  },
+  "keywords": [
+    "electric",
+    "grid",
+    "management"
+  ],
+  "author": "Dmytro Nedzelskyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnedzelskyi/electric-grid-management/issues"
+  },
+  "homepage": "https://github.com/dnedzelskyi/electric-grid-management#readme"
+}
