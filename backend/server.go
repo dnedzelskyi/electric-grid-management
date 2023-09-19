@@ -1,51 +1,46 @@
 package main
 
 import (
-	"context"
+	"fmt"
 	"log"
 	"net/http"
 
-	"egm.com/backend/proto"
+	"egm.com/backend/pb"
+	"egm.com/backend/services"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-type YourService struct {
-	proto.UnimplementedHelloServiceServer
-}
-
-func (s *YourService) GetData(ctx context.Context, req *proto.HelloRequest) (*proto.HelloResponse, error) {
-	// Replace this with your actual data retrieval logic
-	data := "Hello, " + req.Name
-	return &proto.HelloResponse{Greeting: data}, nil
-}
+const (
+	Port          = 9090
+	AllowedOrigin = "http://localhost:4200"
+)
 
 func main() {
 	// Start gRPC server
 	server := grpc.NewServer()
-	proto.RegisterHelloServiceServer(server, &YourService{})
+	pb.RegisterGridServiceServer(server, &services.GridService{})
 
 	// Enable reflection for tools like grpcwebproxy
 	reflection.Register(server)
 
 	// Wrap the gRPC server to make it compatible with gRPC-Web
-	wrappedServer := grpcweb.WrapServer(server)
+	wrappedServer := grpcweb.WrapServer(
+		server,
+		grpcweb.WithOriginFunc(func(origin string) bool {
+			return origin == AllowedOrigin
+		}))
 
 	// Create an HTTP server
 	httpServer := &http.Server{
-		Addr: ":9090", // Replace with your desired port
+		Addr: fmt.Sprintf(":%d", Port), // Replace with your desired port
 		Handler: http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 			wrappedServer.ServeHTTP(resp, req)
-			// if wrappedServer.IsAcceptableGrpcCorsRequest(req) {
-			// 	wrappedServer.ServeHTTP(resp, req)
-			// } else {
-			// 	http.Error(resp, "CORS not allowed", http.StatusForbidden)
-			// }
 		}),
 	}
 
-	log.Println("gRPC-Web server listening on :9090")
+	log.Printf("gRPC-Web server listening on :%d\n", Port)
 	if err := httpServer.ListenAndServe(); err != nil {
 		log.Fatalf("HTTP server error: %v", err)
 	}

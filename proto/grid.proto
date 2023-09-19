@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package grid;
+option go_package = "egm.com/backend/pb";
+
+enum GridNodeTypeEnum {
+  POWER_STATION = 0;
+  SOLAR_PLANT = 1;
+  SUBSTATION = 2;
+  TRANSMISSION = 3;
+  CONSUMER = 4;
+}
+
+message GridNode {
+  int32 id = 1;
+  string name = 2;
+  GridNodeTypeEnum type = 3;
+  float power = 4;
+}
+
+message GetNodeRequest {
+  int32 id = 1;
+}
+
+message UpdateNodeRequest {
+  GridNode node = 1;
+}
+
+message GetNodeResponse {
+  GridNode node = 1;
+}
+
+message  UpdateNodeResponse {
+  int32 id = 1;
+}
+
+message NodeLink {
+  int32 source = 1;
+  int32 target = 2;
+}
+
+message GetGridResponse {
+  repeated GridNode nodes = 1;
+  repeated NodeLink links = 2;
+}
+
+service GridService {
+  rpc GetGrid(google.protobuf.Empty) returns (GetGridResponse);
+  rpc GetNode(GetNodeRequest) returns (GetNodeResponse);
+  rpc UpdateNode(UpdateNodeRequest) returns (UpdateNodeResponse);
+}
