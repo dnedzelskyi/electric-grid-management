@@ -1,5 +1,7 @@
 import { Component, Inject, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TGraphGrid } from 'src/app/types/grid-types';
+import { Router } from '@angular/router';
 
 const CONSTANTS = {
   Header: 'Grid Map',
@@ -12,7 +14,21 @@ const CONSTANTS = {
   providers: [{ provide: 'CONSTANTS', useValue: CONSTANTS }],
 })
 export class GridMapComponent {
-  @Input() data: TGraphGrid = { nodes: [], links: [] };
+  @Input() data: TGraphGrid | null = null;
+  @Input() selectedId: number | undefined;
 
-  constructor(@Inject('CONSTANTS') public Constants: any) {}
+  public get graph(): TGraphGrid {
+    return this.data ?? { nodes: [], links: [] };
+  }
+
+  constructor(
+    private router: Router,
+    @Inject('CONSTANTS') public Constants: any
+  ) {}
+
+  handleClick(event: any) {
+    if (event.id) {
+      this.router.navigate(['/home', `${event.id}`]);
+    }
+  }
 }

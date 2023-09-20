@@ -1,7 +1,7 @@
-.graph {
-  border: 1px solid red;
+:host {
+  cursor: pointer;
 }
 
 mat-card {
-  min-width: 600px;
+  min-width: 700px;
 }

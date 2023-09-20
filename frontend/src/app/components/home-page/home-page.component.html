@@ -1,7 +1,7 @@
 <div class="container">
   <!-- Grid Map -->
-  <grid-map [data]="grid1"></grid-map>
+  <grid-map [data]="grid$ | async" [selectedId]="selectedNodeId"></grid-map>
   <!-- Details -->
-  <grid-node-details [nodeId]="selectedNodeId"></grid-node-details>
+  <grid-node-details [nodeId]="selectedNodeId" (onCancel)="handleCancel()"
+    (onSave)="handleSave($event)"></grid-node-details>
 </div>
-<pre>{{grid | json}}</pre>

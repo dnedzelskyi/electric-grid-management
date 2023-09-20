@@ -8,8 +8,8 @@ export class GridNode extends jspb.Message {
   getId(): number;
   setId(value: number): void;
 
-  getName(): string;
-  setName(value: string): void;
+  getLabel(): string;
+  setLabel(value: string): void;
 
   getType(): GridNodeTypeEnumMap[keyof GridNodeTypeEnumMap];
   setType(value: GridNodeTypeEnumMap[keyof GridNodeTypeEnumMap]): void;
@@ -30,7 +30,7 @@ export class GridNode extends jspb.Message {
 export namespace GridNode {
   export type AsObject = {
     id: number,
-    name: string,
+    label: string,
     type: GridNodeTypeEnumMap[keyof GridNodeTypeEnumMap],
     power: number,
   }

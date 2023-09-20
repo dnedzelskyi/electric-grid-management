@@ -2,7 +2,10 @@ import { Component, Inject } from '@angular/core';
 
 const CONSTANTS = {
   Title: 'Electric Grid Management',
-  SideNavMenuItems: [{ path: '/home', icon: 'home', title: 'Home' }],
+  SideNavMenuItems: [
+    { path: '/home', icon: 'home', title: 'Home' },
+    { path: '/reports', icon: 'description', title: 'Reports' },
+  ],
 };
 
 @Component({

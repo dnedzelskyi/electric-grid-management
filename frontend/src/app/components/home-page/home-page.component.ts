@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HelloServiceService } from '../../services/hello-service.service';
-import { GridNode, NodeLink } from '../../pb/grid_pb';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, filter, map } from 'rxjs';
+import { GridNode } from 'src/app/pb/grid_pb';
 import { GridService } from 'src/app/services/grid/grid.service';
-import { TApiGrid } from 'src/app/types/grid-types';
+import { TApiGrid, TGraphGrid } from 'src/app/types/grid-types';
 
 @Component({
   selector: 'app-home-page',
@@ -12,75 +12,53 @@ import { TApiGrid } from 'src/app/types/grid-types';
 })
 export class HomePageComponent implements OnInit {
   selectedNodeId: number | undefined;
-  grid: TApiGrid = { nodes: [], links: [] };
-
-  grid1 = {
-    nodes: [
-      {
-        id: '1',
-        label: 'Node A',
-      },
-      {
-        id: '2',
-        label: 'Node B',
-      },
-      {
-        id: '3',
-        label: 'Node C',
-      },
-      {
-        id: '4',
-        label: 'Node D',
-      },
-      {
-        id: '5',
-        label: 'Node E',
-      },
-      {
-        id: '6',
-        label: 'Node F',
-      },
-    ],
-    links: [
-      {
-        source: '1',
-        target: '2',
-      },
-      {
-        source: '1',
-        target: '3',
-      },
-      {
-        source: '3',
-        target: '4',
-      },
-      {
-        source: '3',
-        target: '5',
-      },
-      {
-        source: '4',
-        target: '5',
-      },
-      {
-        source: '2',
-        target: '6',
-      },
-    ],
-  };
+  grid$!: Observable<TGraphGrid>;
 
   constructor(
     private gridService: GridService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.refresh();
+  }
 
   ngOnInit(): void {
-    if ('id' in this.route.snapshot.params) {
-      this.selectedNodeId = parseInt(this.route.snapshot.params['id']);
-    }
-
-    this.gridService.getGrid().then((value) => {
-      this.grid = value;
+    this.route.params.subscribe((params) => {
+      if ('id' in params) {
+        this.selectedNodeId = parseInt(params['id']);
+      }
     });
+  }
+
+  handleSave(node: GridNode | null) {
+    this.gridService.updateNode(node).subscribe(() => {
+      this.router.navigate(['/home']);
+      this.refresh();
+    });
+  }
+
+  handleCancel() {
+    this.router.navigate(['/home']);
+    this.refresh(true);
+  }
+
+  private handleFetchAll() {
+    this.grid$ = this.gridService.getGrid().pipe(
+      map<TApiGrid, TGraphGrid>((g) => ({
+        nodes: g.nodes.map((n) => ({
+          id: n.getId().toString(),
+          label: n.getLabel(),
+          data: { type: n.getType(), power: n.getPower() },
+        })),
+        links: g.links.map((l) => ({
+          source: l.getSource().toString(),
+          target: l.getTarget().toString(),
+        })),
+      }))
+    );
+  }
+
+  private refresh(skipData: boolean = false) {
+    !skipData && this.handleFetchAll();
   }
 }

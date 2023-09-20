@@ -3,16 +3,85 @@
     <mat-card-title> {{Constants.Header}}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="graph">
-      <ngx-graph [view]="[600, 400]" [nodes]="data.nodes" [draggingEnabled]="false" [links]="data.links">
-        <ng-template #nodeTemplate let-node>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-zap">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-          </svg>
-        </ng-template>
-      </ngx-graph>
-    </div>
+    <ngx-graph [view]="[700, 500]" [nodes]="graph.nodes" [draggingEnabled]="false" [links]="graph.links"
+      (select)="handleClick($event)">
+      <ng-template #nodeTemplate let-node>
+        <!-- Power station -->
+        <svg *ngIf="node.data.type == 0" height="64px" width="64px" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 441.593 441.593" xmlns:xlink="http://www.w3.org/1999/xlink"
+          enable-background="new 0 0 441.593 441.593" [attr.fill]="node.id == selectedId ? 'red' : 'black'">
+          <g id="SVGRepo_bgCarrier" stroke-width="0" />
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="m329.701,153.811c-25.903,0-49.851-13.408-70.888-25.266-1.539-0.712-3.021-1.547-4.417-2.491-39.422-22.196-65.687-33.271-96.954-1.383-4.059,4.141-10.708,4.206-14.849,0.146-4.14-4.06-4.206-10.708-0.146-14.849 44.915-45.805 88.026-21.505 122.666-1.979 0.303,0.171 0.597,0.356 0.881,0.556 0.56,0.393 1.167,0.735 1.807,1.017 0.314,0.139 0.621,0.292 0.92,0.461 42.864,24.163 71.479,36.216 107.35-0.056 4.078-4.123 10.726-4.16 14.849-0.083 4.123,4.078 4.16,10.726 0.083,14.849-21.261,21.5-41.836,29.078-61.302,29.078zm-29.853-91.829c5.799,0 10.5-4.701 10.5-10.5 0-12.995 10.572-23.567 23.566-23.567 12.379,0 22.706,9.662 23.512,21.997 0.351,5.37 4.703,9.605 10.08,9.809 29.769,1.127 53.087,25.361 53.087,55.171 0,29.811-23.319,54.045-53.087,55.171-5.377,0.204-9.729,4.438-10.081,9.808-0.807,12.335-11.134,21.998-23.512,21.998-12.994,0-23.566-10.571-23.566-23.565 0-5.799-4.701-10.5-10.5-10.5s-10.5,4.701-10.5,10.5c0,24.573 19.992,44.565 44.566,44.565 20.298,0 37.682-13.75 42.938-32.623 16.473-2.482 31.636-10.276 43.372-22.436 13.78-14.277 21.369-33.071 21.369-52.918s-7.589-38.641-21.369-52.918c-11.736-12.16-26.898-19.954-43.371-22.436-5.255-18.874-22.639-32.623-42.939-32.623-24.574,0-44.566,19.993-44.566,44.567 0.001,5.799 4.702,10.5 10.501,10.5zm-202.239,64.907c1.161,0.412 2.345,0.607 3.511,0.607 4.32,0 8.369-2.688 9.896-6.992 15.871-44.739 57.161-59.71 87.639-58.933 23.612,0.599 44.951,10.305 78.462,29.208l.177,.102c11.618,6.703 24.786,14.3 38.607,17.325 17.597,3.852 32.798-0.545 45.18-13.066 4.077-4.124 4.04-10.771-0.083-14.849-4.123-4.077-10.771-4.039-14.849,0.083-15.224,15.395-32.99,6.954-58.361-7.683l-.226-.131c-0.029-0.017-0.059-0.034-0.088-0.05-31.228-17.615-57.557-31.152-88.286-31.932-37.523-0.963-88.333,17.566-107.964,72.904-1.939,5.466 0.92,11.468 6.385,13.407zm246.784,213.842c5.799,0 10.5-4.701 10.5-10.5v-20.539c0-5.799-4.701-10.5-10.5-10.5s-10.5,4.701-10.5,10.5v20.539c0,5.799 4.701,10.5 10.5,10.5zm97.2,83.444c0,5.799-4.701,10.5-10.5,10.5h-179.835c-0.105,0.002-0.21,0.002-0.314,0h-85.887c-5.799,0-10.5-4.701-10.5-10.5v-34.299c0-5.799 4.701-10.5 10.5-10.5s10.5,4.701 10.5,10.5v23.799h63.602l-31.224-239.783h-130.962l-31.223,239.784 63.603,.001v-23.802c0-5.799 4.701-10.5 10.5-10.5s10.5,4.701 10.5,10.5v34.302c0,2.785-1.106,5.456-3.075,7.425-1.969,1.969-4.64,3.075-7.425,3.075l-85.928-.002c-0.078,0.001-0.156,0.001-0.235,0h-23.19c-5.799,0-10.5-4.701-10.5-10.5s4.702-10.5 10.5-10.5h14.073l32.766-251.639c0.681-5.23 5.137-9.144 10.412-9.144h149.404c5.275,0 9.731,3.914 10.412,9.144l13.606,104.49h166.623c5.799,0 10.5,4.701 10.5,10.5v136.649h12.795c5.801,5.68434e-14 10.502,4.701 10.502,10.5zm-44.296-136.649h-153.388l16.427,126.149h136.962v-126.149zm-101.252,53.205c5.799,0 10.5-4.701 10.5-10.5v-20.539c0-5.799-4.701-10.5-10.5-10.5s-10.5,4.701-10.5,10.5v20.539c0,5.799 4.701,10.5 10.5,10.5z" />
+          </g>
+        </svg>
+        <!-- Transmission -->
+        <svg *ngIf="node.data.type == 3" height="64px" width="64px" version="1.1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+          xml:space="preserve" [attr.fill]="node.id == selectedId ? 'red' : 'black'">
+          <g id="SVGRepo_bgCarrier" stroke-width="0" />
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+          <g id="SVGRepo_iconCarrier">
+            <g>
+              <g>
+                <path
+                  d="M453.333,490.667h-33.301L357.237,9.291c-0.691-5.312-5.214-9.287-10.571-9.291H165.333 c-5.356,0.003-9.88,3.979-10.571,9.291L91.968,490.667H58.667c-5.891,0-10.667,4.776-10.667,10.667S52.776,512,58.667,512h394.667 c5.891,0,10.667-4.776,10.667-10.667S459.224,490.667,453.333,490.667z M363.52,222.315l-93.376-107.381L339.2,35.563 L363.52,222.315z M323.2,21.333L256,98.677l-67.2-77.344H323.2z M172.8,35.563l69.024,79.371L148.48,222.315L172.8,35.563z M256,131.2l107.68,123.819L256,350.272l-107.68-95.253L256,131.2z M141.312,277.333l98.592,87.221L115.595,474.485 L141.312,277.333z M129.483,490.667L256,378.752l126.517,111.915H129.483z M272.096,364.512l98.592-87.179l25.717,197.152 L272.096,364.512z" />
+              </g>
+            </g>
+          </g>
+        </svg>
+        <!-- Substation / Transformer -->
+        <svg *ngIf="node.data.type == 2" width="64px" height="64px" viewBox="0 0 64 64" data-name="Layer 1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" stroke="#000000" [attr.fill]="node.id == selectedId ? 'red' : 'black'">
+          <g id="SVGRepo_bgCarrier" stroke-width="0" />
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+          <g id="SVGRepo_iconCarrier">
+            <polyline class="cls-1" points="34 15 36 19 28 19 30 15" />
+            <polyline class="cls-1" points="22 15 24 19 16 19 18 15" />
+            <polyline class="cls-1" points="46 15 48 19 40 19 42 15" />
+            <polyline class="cls-2" points="34 11 36 15 28 15 30 11" />
+            <polyline class="cls-2" points="22 11 24 15 16 15 18 11" />
+            <polyline class="cls-2" points="46 11 48 15 40 15 42 11" />
+            <rect class="cls-1" height="28" width="44" x="10" y="27" />
+            <polygon class="cls-3" points="42 51 22 51 32 31 42 51" />
+            <path class="cls-4"
+              d="M32.89,48.45l-1.78-.9L32.38,45H30a1,1,0,0,1-.89-1.45l2-4,1.78.9L31.62,43H34a1,1,0,0,1,.89,1.45Z" />
+            <rect class="cls-5" height="6" width="50" x="7" y="55" />
+            <polygon class="cls-1" points="36 11 28 11 30 7 34 7 36 11" />
+            <rect class="cls-6" height="4" width="2" x="31" y="3" />
+            <rect class="cls-6" height="4" width="2" x="29" y="19" />
+            <rect class="cls-6" height="4" width="2" x="33" y="19" />
+            <polygon class="cls-1" points="24 11 16 11 18 7 22 7 24 11" />
+            <rect class="cls-6" height="4" width="2" x="19" y="3" />
+            <rect class="cls-6" height="4" width="2" x="17" y="19" />
+            <rect class="cls-6" height="4" width="2" x="21" y="19" />
+            <polygon class="cls-1" points="48 11 40 11 42 7 46 7 48 11" />
+            <rect class="cls-6" height="4" width="2" x="43" y="3" />
+            <rect class="cls-6" height="4" width="2" x="41" y="19" />
+            <rect class="cls-6" height="4" width="2" x="45" y="19" />
+            <rect class="cls-5" height="4" rx="2" width="48" x="8" y="23" />
+          </g>
+        </svg>
+        <!-- Consumer -->
+        <svg *ngIf="node.data.type == 4" width="64px" height="64px" viewBox="0 0 1024 1024"
+          xmlns="http://www.w3.org/2000/svg" [attr.fill]="node.id == selectedId ? 'red' : 'black'">
+          <g id="SVGRepo_bgCarrier" stroke-width="0" />
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+          <g id="SVGRepo_iconCarrier">
+            <path [attr.fill]="node.id == selectedId ? 'red' : 'black'"
+              d="M192 128v704h384V128H192zm-32-64h448a32 32 0 0 1 32 32v768a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V96a32 32 0 0 1 32-32z" />
+            <path [attr.fill]="node.id == selectedId ? 'red' : 'black'"
+              d="M256 256h256v64H256v-64zm0 192h256v64H256v-64zm0 192h256v64H256v-64zm384-128h128v64H640v-64zm0 128h128v64H640v-64zM64 832h896v64H64v-64z" />
+            <path [attr.fill]="node.id == selectedId ? 'red' : 'black'"
+              d="M640 384v448h192V384H640zm-32-64h256a32 32 0 0 1 32 32v512a32 32 0 0 1-32 32H608a32 32 0 0 1-32-32V352a32 32 0 0 1 32-32z" />
+          </g>
+        </svg>
+        <svg:text y="-8">
+          {{node.data.power}} MW
+        </svg:text>
+      </ng-template>
+    </ngx-graph>
   </mat-card-content>
 </mat-card>

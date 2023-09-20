@@ -211,7 +211,7 @@ proto.grid.GridNode.prototype.toObject = function(opt_includeInstance) {
 proto.grid.GridNode.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    label: jspb.Message.getFieldWithDefault(msg, 2, ""),
     type: jspb.Message.getFieldWithDefault(msg, 3, 0),
     power: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0)
   };
@@ -256,7 +256,7 @@ proto.grid.GridNode.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setLabel(value);
       break;
     case 3:
       var value = /** @type {!proto.grid.GridNodeTypeEnum} */ (reader.readEnum());
@@ -302,7 +302,7 @@ proto.grid.GridNode.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getName();
+  f = message.getLabel();
   if (f.length > 0) {
     writer.writeString(
       2,
@@ -345,10 +345,10 @@ proto.grid.GridNode.prototype.setId = function(value) {
 
 
 /**
- * optional string name = 2;
+ * optional string label = 2;
  * @return {string}
  */
-proto.grid.GridNode.prototype.getName = function() {
+proto.grid.GridNode.prototype.getLabel = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -357,7 +357,7 @@ proto.grid.GridNode.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.grid.GridNode} returns this
  */
-proto.grid.GridNode.prototype.setName = function(value) {
+proto.grid.GridNode.prototype.setLabel = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
