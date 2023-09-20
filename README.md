@@ -23,6 +23,6 @@ Prototype Web Application of Electric Grid Management System.
 
 ## Prerequisites to run locally.
 
-- Go | [download](https://go.dev/dl/).
+- Go
 - npm
 - Angular
