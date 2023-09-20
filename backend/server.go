@@ -34,7 +34,7 @@ func main() {
 
 	// Create an HTTP server
 	httpServer := &http.Server{
-		Addr: fmt.Sprintf(":%d", Port), // Replace with your desired port
+		Addr: fmt.Sprintf(":%d", Port),
 		Handler: http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
 			wrappedServer.ServeHTTP(resp, req)
 		}),
