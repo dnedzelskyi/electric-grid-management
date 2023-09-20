@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GridGraphComponent } from './grid-graph.component';
+import { GridMapComponent } from './grid-map.component';
 
-describe('GridGraphComponent', () => {
-  let component: GridGraphComponent;
-  let fixture: ComponentFixture<GridGraphComponent>;
+describe('GridMapComponent', () => {
+  let component: GridMapComponent;
+  let fixture: ComponentFixture<GridMapComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GridGraphComponent]
+      declarations: [GridMapComponent]
     });
-    fixture = TestBed.createComponent(GridGraphComponent);
+    fixture = TestBed.createComponent(GridMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

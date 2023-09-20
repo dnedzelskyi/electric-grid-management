@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HelloRequest } from 'src/proto/hello_pb';
 import { GridServiceClient } from '../pb/grid_pb_service';
-import { GetNodeRequest, GridNode } from '../pb/grid_pb';
+import { GridNode } from '../pb/grid_pb';
 import * as google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb';
 
 @Injectable({

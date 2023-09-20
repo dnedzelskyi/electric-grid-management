@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  height: 100%;
+
+  grid-map {
+    flex-grow: 1;
+  }
+  grid-node-details {
+    flex-grow: 2;
+  }
+}

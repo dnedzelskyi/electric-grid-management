@@ -1,19 +1,16 @@
-import { Component } from '@angular/core';
-import { HelloServiceService } from './services/hello-service.service';
-import { GridNode } from './pb/grid_pb';
+import { Component, Inject } from '@angular/core';
+
+const CONSTANTS = {
+  Title: 'Electric Grid Management',
+  SideNavMenuItems: [{ path: '/home', icon: 'home', title: 'Home' }],
+};
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [{ provide: 'CONSTANTS', useValue: CONSTANTS }],
 })
 export class AppComponent {
-  title = 'frontend';
-  greeting: GridNode[] = [];
-
-  constructor(private helloService: HelloServiceService) {}
-
-  async handleClick(event: Event) {
-    this.greeting = await this.helloService.getGreeting();
-  }
+  constructor(@Inject('CONSTANTS') public Constants: any) {}
 }
