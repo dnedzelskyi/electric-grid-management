@@ -13,6 +13,7 @@ Prototype Web Application of Electric Grid Management System.
 - gRPC, grpcweb
 - Angular, TypeScript, RxJs
 - ngx-graph
+- Angular Material
 
 ## How to run locally.
 
